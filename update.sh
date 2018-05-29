@@ -27,6 +27,10 @@ declare -A gpgKeys=(
 	# https://secure.php.net/downloads.php#gpg-5.6
 	# https://secure.php.net/gpg-keys.php#gpg-5.6
 	[5.6]='0BD78B5F97500D450838F95DFE857D9A90D90EC1 6E4F6AB321FDC07F2C332E3AC2BF0BC433CFC8B3'
+
+    [5.5]='0BD78B5F97500D450838F95DFE857D9A90D90EC1 0B96609E270F565C13292B24C13C70B87267B52D F38252826ACD957EF380D39F2F7956BC5DA04B5D'
+    [5.4]='F38252826ACD957EF380D39F2F7956BC5DA04B5D'
+    [5.3]='0B96609E270F565C13292B24C13C70B87267B52D 0A95E9A026542D53835E3F3A7DEC4E69FC9C83D7'
 )
 # see https://secure.php.net/downloads.php
 
@@ -125,7 +129,8 @@ for version in "${versions[@]}"; do
 
 	dockerfiles=()
 
-	for suite in stretch jessie alpine{3.7,3.6,3.4}; do
+#	for suite in stretch jessie alpine{3.7,3.6,3.4}; do
+	for suite in alpine{3.7,3.6,3.4}; do
 		[ -d "$version/$suite" ] || continue
 		alpineVer="${suite#alpine}"
 
@@ -134,7 +139,8 @@ for version in "${versions[@]}"; do
 			baseDockerfile=Dockerfile-alpine.template
 		fi
 
-		for variant in cli apache fpm zts; do
+#		for variant in cli apache fpm zts; do
+		for variant in cli; do
 			[ -d "$version/$suite/$variant" ] || continue
 			{ generated_warning; cat "$baseDockerfile"; } > "$version/$suite/$variant/Dockerfile"
 
